@@ -1,5 +1,5 @@
 influxdb:
-  image: influxdb:1.7.10
+  image: quay.io/influxdb/influxdb:v2.0.4
   container_name: influxdb
   ports:
     - "8083:8083"
@@ -10,10 +10,11 @@ influxdb:
   volumes:
     # Data persistency
     # sudo mkdir -p /srv/docker/influxdb/data
-    - ./data/influxdb:/var/lib/influxdb
+    # - ./data/influxdb:/var/lib/influxdb
+    - /root/.influxdbv2:/root/.influxdbv2 
 
 telegraf:
-  image: telegraf:latest
+  image: telegraf:1.17.0
   container_name: telegraf
   links:
     - influxdb
@@ -21,7 +22,7 @@ telegraf:
     - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
 grafana:
-  image: grafana/grafana:6.7.2-ubuntu
+  image: grafana/grafana:7.4.3
   container_name: grafana
   ports:
     - "3000:3000"
